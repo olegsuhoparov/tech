@@ -1,38 +1,18 @@
 from testdata.data import separators
 
 
-def cut_title_until_value(title_article: str, length_article_for_shorten=25) -> str:
-    length_title = len(title_article)
-    if not isinstance(title_article, str):
-        raise TypeError(f"Invalid datatype of your title, {type(title_article)}")
-    if length_title < length_article_for_shorten + 1:
-        if len(title_article) == 0:
-            raise ValueError("Article doesn't have a title")
-        return title_article
+def trim_a_string_to_a_word(article_title: str, length_for_shortening=25) -> str:
+    if not isinstance(article_title, str):
+        raise TypeError(f"Invalid datatype of your title, {type(article_title)}")
+    elif len(article_title) <= length_for_shortening:
+        return article_title
 
-    new_title = []
-    index = 0
-
-    for letter in title_article:
-        if index == length_article_for_shorten:
+    while length_for_shortening:
+        length_for_shortening -= 1
+        if article_title[length_for_shortening] in separators \
+                and article_title[length_for_shortening - 1] not in separators:
             break
-        new_title += letter
-        index += 1
-
-    while index:
-        index -= 1
-
-        if index == 0:
-            new_title.pop(index)
-            break
-        elif new_title[index] in separators:
-            new_title.pop(index)
-            if new_title[index - 1] not in separators:
-                break
-        else:
-            new_title.pop(index)
-
-    return "".join(new_title) + "..."
+    return "".join(article_title[:length_for_shortening]) + "..."
 
 
 if __name__ == "__main__":
@@ -44,6 +24,6 @@ if __name__ == "__main__":
     try:
         print("\nEnter yhe length for shorten title:")
         length = int(input())
-        print("Short title is: " + cut_title_until_value(title, length_article_for_shorten=length))
+        print("Short title is: " + trim_a_string_to_a_word(title, length_for_shortening=length))
     except ValueError:
         print("You entered not a int as a length!")

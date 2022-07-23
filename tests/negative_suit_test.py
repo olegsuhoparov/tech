@@ -1,5 +1,5 @@
 import pytest
-from title_converter import cut_title_until_value
+from title_converter import trim_a_string_to_a_word
 from testdata.data import negative_suit
 
 
@@ -7,9 +7,6 @@ from testdata.data import negative_suit
 def test_func_negative(param):
     if not isinstance(param, str):
         with pytest.raises(TypeError):
-            assert cut_title_until_value(param) == param, "Not suitable type of error"
-    elif len(param) == 0:
-        with pytest.raises(ValueError):
-            assert cut_title_until_value(param) == param, "Not suitable type of error"
+            assert trim_a_string_to_a_word(param) == param, "Not suitable type of error"
     else:
-        pytest.fail("Length string for this test has to be 0")
+        pytest.fail("unexpectedly the string got in the test")
